@@ -141,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     <h1 style="padding: 75px; font-size: 50px;">Input Page</h1>
 
-        <div class="container">
+    <div class="container">
             <div class="row">
               <div class="col-sm">
                 <div class="card" style="width: 18rem; margin-bottom: 50px;">
@@ -211,6 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             </div>
           </div>
         </div>
+
 
     <!-- Optional JavaScript; choose one of the two! -->
 

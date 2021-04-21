@@ -24,7 +24,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       }
       
       $conn->close();
-		}
+		}  else if (isset($_POST['checkUpdate'])) {
+      $value = $_POST['valueDate'];
+			$dish = $_POST['valueDish'];
+			$drink = $_POST['valueDrink'];
+      //Connect to data base
+      $servername = "localhost";
+      $username = "root";
+      $password = "";
+      $dbname = "testdb";
+
+      // Create connection
+      $conn = new mysqli($servername, $username, $password, $dbname);
+      // Check connection
+      if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+      }
+
+      $sql = "UPDATE dinner SET dish='$dish', drink='$drink' WHERE date='$value'";
+
+      if ($conn->query($sql) === TRUE) {
+        echo "Record updated successfully";
+      } else {
+        echo "Error updating record: " . $conn->error;
+      }
+    }
 	}  
 ?>
 <html lang="en">
@@ -106,6 +130,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                         ?>
                       </div>
                     </div>
+                  </div>
+                </div>
+                <div class="col-sm">
+                  <h1>Made a Mistake?</h1>
+                  <div class="card" style="width: 18rem; margin-bottom: 50px;">
+                      <div class="card-body">
+                        <h5 class="card-title">Edit Dinner History</h5>
+                        <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
+                          <div class="mb-3">
+                              <label for="exampleInputText" class="form-label">Where Date Was</label>
+                              <input name="valueDate" class="form-control" type="text" aria-label="default input example">
+                          </div>
+                          <div class="mb-3">
+                            <label for="exampleInputText" class="form-label">Edited Dish</label>
+                            <input name="valueDish" class="form-control" type="text" aria-label="default input example">
+                          </div>
+                          <div class="mb-3">
+                            <label for="exampleInputText" class="form-label">Edited Drink</label>
+                            <input name="valueDrink" class="form-control" type="text" aria-label="default input example">
+                          </div>
+                          <button type="submit" name="checkUpdate" class="btn btn-primary">Submit</button>
+                        </form>
+                      </div>
                   </div>
                 </div>
               </div>
