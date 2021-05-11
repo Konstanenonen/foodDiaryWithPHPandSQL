@@ -1,6 +1,21 @@
 
 <?php
 
+session_start();
+
+  /* If the session data does not exist (i.e we are starting a new session), try to set the session's data with 
+     the cookies that were saved when the user made his/her last login (i.e: the cookies that the client browser is sending in its HTTP GET request to this index.php script)
+     This is the code that allows the app to remember the user that last logged in to the app (in the browser/computer that's issuing the HTTP GET request) and left the app without logging out 
+  */
+  if (!isset($_SESSION['userid'])) {
+    if (isset($_COOKIE['userid']) && isset($_COOKIE['username'])) {
+      $_SESSION['userid'] = $_COOKIE['userid'];
+      $_SESSION['username'] = $_COOKIE['username'];
+      // Using city here is for demonstration purposes. In real applications, you should not save personal data in cookies
+      $_SESSION['city'] = $_COOKIE['city']; 
+    }
+  }
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
 		if (isset($_POST['checkInteger'])) { // Check if an input value is an integer
@@ -139,7 +154,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	  </header>
     <body>
 
-    <h1 style="padding: 75px; font-size: 50px;">Input Page</h1>
+    <div class="container">
+      <div class="row" style="margin-top: 75px; margin-bottom: 75px;">
+        <div class="col-sm-4">
+          <h1 style="font-size: 50px;">Input Page</h1>
+        </div>
+        <div class="col-sm-4">
+        <?php
+ // Generate the navigation menu
+ if (isset($_SESSION['userid'])) {
+   echo '<div class="card" style="width: 25rem;">';
+   echo '<div class="card-body">';
+   echo '<h5 class="card-title">Hello, '. $_SESSION['username'] . '!</h5>'; 
+   echo '<br class="card-text">Here is the proof that I remember you:<br>';
+   echo 'You were born in ' . $_SESSION['city'] . '!</br>';
+   echo '<a href="logout.php">Log Out</a></p>';
+   echo '</div>';
+   echo '</div>';
+ }
+ else {
+   echo '<div class="card">';
+   echo '<div class="card-body">';
+   echo '<h5 class="card-title">Hello! from below you can:</h5>';
+   echo '<p class="card-text"><a href="login.php">Log In</a> or if you are a new user <a href="signup.php">Sign Up</a></p>';
+   echo '</div>';
+   echo '</div>';
+ }
+ ?>
+        </div>
+      </div>
+    </div>
 
     <div class="container">
             <div class="row">
