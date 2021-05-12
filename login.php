@@ -57,9 +57,17 @@
 <html>
 
 <head>
-    <title>Login</title>
+    
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+
+    <title>Login</title>
+
 </head>
 
 <header>
@@ -96,23 +104,23 @@
 ?>
 
 <body>
-  <div class="container" style="margin-left: 20%; margin-top: 5%;">
+  <div class="container" style="margin-top: 5%;">
     <div class="row">
       <h1>Login</h1>
     </div>
     <div class="row">
       <div class="col-sm">
         <form method="post" action="login.php">
-  <div class="mb-3" style="width: 300px;">
-    <label for="exampleInputEmail1" class="form-label">User Name</label>
-    <input type="text" class="form-control" id="username" aria-describedby="username" name="username">
-  </div>
-  <div class="mb-3" style="width: 300px;">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
-  </div>
-  <button type="submit" class="btn btn-primary" name="loging-in">Log In</button>
-</form>
+          <div class="mb-3" style="width: 300px;">
+            <label for="exampleInputEmail1" class="form-label">User Name</label>
+            <input type="text" class="form-control" id="username" aria-describedby="username" name="username">
+          </div>
+          <div class="mb-3" style="width: 300px;">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+          </div>
+          <button type="submit" class="btn btn-primary" name="loging-in">Log In</button>
+        </form>
       </div>
     </div>
   </div>

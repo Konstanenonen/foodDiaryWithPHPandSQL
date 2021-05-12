@@ -22,12 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$value = $_POST['valueDate'];
 			$dish = $_POST['valueDish'];
 			$drink = $_POST['valueDrink'];
-			if (filter_var($value, FILTER_VALIDATE_INT) == true) {
+      $userid =  $_SESSION['userid'];
+			if (filter_var($value, FILTER_VALIDATE_INT) == false) {
 				
 				$servername = "localhost";
 				$username = "root";
 				$password = "";
-				$dbname = "testdb";
+				$dbname = "session_db";
 				
 				// Create connection
 				$conn = new mysqli($servername, $username, $password, $dbname);
@@ -36,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 					die("Connection failed: " . $conn->connect_error);
 }
 
-				$sql = "INSERT INTO customer (ID, fName, lName)
-				VALUES ('$value', '$dish', '$drink')";
+				$sql = "INSERT INTO breakfast (bDate, bDish, bDrink, userid)
+				VALUES ('$value', '$dish', '$drink', '$userid')";
 
 				if ($conn->query($sql) === TRUE) {
 				echo "New record created successfully";
@@ -54,12 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$value = $_POST['valueDate3'];
       $dish = $_POST['valueDish3'];
       $drink = $_POST['valueDrink3'];
+      $userid =  $_SESSION['userid'];
 			if (strlen($value)<=20) {
 				$msg = "The input value '".$value."' does not exceed the max length";
 				$servername = "localhost";
 				$username = "root";
 				$password = "";
-				$dbname = "testdb";
+				$dbname = "session_db";
 				
 				// Create connection
 				$conn = new mysqli($servername, $username, $password, $dbname);
@@ -68,8 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 					die("Connection failed: " . $conn->connect_error);
 }
 
-				$sql = "INSERT INTO dinner (date, dish, drink)
-				VALUES ('$value', '$dish', '$drink')";
+				$sql = "INSERT INTO dinner (dinnerDate, dinnerDish, dinnerDrink, userid)
+				VALUES ('$value', '$dish', '$drink', '$userid')";
 
 				if ($conn->query($sql) === TRUE) {
 				echo "New record created successfully";
@@ -86,12 +88,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$value = $_POST['valueDate2'];
       $dish = $_POST['valueDish2'];
       $drink = $_POST['valueDrink2'];
+      $userid =  $_SESSION['userid'];
 			if (strlen($value)<=20) {
 				$msg = "The input value '".$value."' does not exceed the max length";
 				$servername = "localhost";
 				$username = "root";
 				$password = "";
-				$dbname = "testdb";
+				$dbname = "session_db";
 				
 				// Create connection
 				$conn = new mysqli($servername, $username, $password, $dbname);
@@ -100,8 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 					die("Connection failed: " . $conn->connect_error);
 }
 
-				$sql = "INSERT INTO lunch (keyDate, lunchDish, lunchDrink)
-				VALUES ('$value', '$dish', '$drink')";
+				$sql = "INSERT INTO lunch (lunchDate, lunchDish, lunchDrink, userid)
+				VALUES ('$value', '$dish', '$drink', '$userid')";
 
 				if ($conn->query($sql) === TRUE) {
 				echo "New record created successfully";
@@ -156,31 +159,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     <div class="container">
       <div class="row" style="margin-top: 75px; margin-bottom: 75px;">
-        <div class="col-sm-4">
+        <div class="col-sm">
           <h1 style="font-size: 50px;">Input Page</h1>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm">
         <?php
- // Generate the navigation menu
- if (isset($_SESSION['userid'])) {
-   echo '<div class="card" style="width: 25rem;">';
-   echo '<div class="card-body">';
-   echo '<h5 class="card-title">Hello, '. $_SESSION['username'] . '!</h5>'; 
-   echo '<br class="card-text">Here is the proof that I remember you:<br>';
-   echo 'You were born in ' . $_SESSION['city'] . '!</br>';
-   echo '<a href="logout.php">Log Out</a></p>';
-   echo '</div>';
-   echo '</div>';
- }
- else {
-   echo '<div class="card">';
-   echo '<div class="card-body">';
-   echo '<h5 class="card-title">Hello! from below you can:</h5>';
-   echo '<p class="card-text"><a href="login.php">Log In</a> or if you are a new user <a href="signup.php">Sign Up</a></p>';
-   echo '</div>';
-   echo '</div>';
- }
- ?>
+          // Generate the navigation menu
+          if (isset($_SESSION['userid'])) {
+            echo '<div class="card" style="width: 25rem;">';
+            echo '<div class="card-body">';
+            echo '<h5 class="card-title">Hello, '. $_SESSION['username'] . '!</h5>'; 
+            echo '<class="card-text">Here is the proof that I remember you:<br>';
+            echo 'You were born in ' . $_SESSION['city'] . '!</class=><br>';
+            echo '<br><button type="button" class="btn btn-primary"><a href="logout.php" style="color: white;">Log Out</a></button></p>';
+            echo '</div>';
+            echo '</div>';
+          }
+          else {
+            echo '<div class="card" style="width: 15rem; text-align: center;">';
+            echo '<div class="card-body">';
+            echo '<h5 class="card-title">Hello visitor!</h5>';
+            echo '<p class="card-text"><button type="button" class="btn btn-primary"><a href="login.php" style="color: white;">Log In</a></button> or <button type="button" class="btn btn-primary"><a href="signup.php" style="color: white;">Sign Up</a></button></p>';
+            echo '</div>';
+            echo '</div>';
+          }
+        ?>
         </div>
       </div>
     </div>

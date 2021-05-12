@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Sign Up</title>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+        <title>Sign Up</title>
     </head>
 
     <header>
@@ -34,7 +40,13 @@
 	  </header>
 
     <body>
-        <h1>Sign Up</h1>
+
+        <div class="container" style="margin-top: 5%">
+          <div class="row">
+            <div class="col-sm">
+              <h1>Sign Up</h1>
+            </div>
+          </div>
 <?php
 /* This php block will only be executed after the user submits the signup data
  by clicking the sign-up button
@@ -100,27 +112,31 @@ require_once('dbinfo.php');
 
   mysqli_close($dbc);
 ?>
-
-        <p>Provide a username and password to sign up.</p>
+    <div class="row">
+      <div class="col-sm">
         <form action='signup.php' method='post'>
-            Enter your username:<br>
-            <input type='text' name='username'>
-            <br><br>
-
-            In which city were you born?:<br>
-            <input type='text' name='city'>
-            <br><br>
-
-            Enter a password:<br>
-            <input type='password' name='password1'>
-            <br><br>
-
-            Retype the password:<br>
-            <input type='password' name='password2'>
-            <br><br>
-
-            <input type='submit' value='Sign Up' name='signing-up'>
-        </form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Enter yout username:</label>
+            <input type="text" name="username" class="form-control" id="username" aria-describedby="username" style="width: 300px;">
+        </div>
+        <div div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">In which city were you born?:</label>
+          <input type="text" name='city' class="form-control" id="city" style="width: 300px;">
+        </div>
+        <div div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Enter a password:</label>
+          <input type="password" name='password1' class="form-control" id="password1" style="width: 300px;">
+        </div>
+        <div div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Retype the password:</label>
+          <input type="password" name='password2' class="form-control" id="password2" style="width: 300px;">
+        </div>
+        <button type="submit" name='signing-up' class="btn btn-primary">Sign Up</button>
+      </form>
+    </div>
+  </div>
+</div>
+    
 
     
     <!-- Optional JavaScript; choose one of the two! -->

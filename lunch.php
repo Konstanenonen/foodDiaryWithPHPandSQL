@@ -5,7 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $servername = "localhost";
       $username = "root";
       $password = "";
-      $dbname = "testdb";
+      $dbname = "session_db";
+      $userid = $_COOKIE['userid'];
       
       // Create connection
       $conn = new mysqli($servername, $username, $password, $dbname);
@@ -15,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       }
       
       // sql to delete a record
-      $sql = "DELETE FROM lunch";
+      $sql = "DELETE FROM lunch WHERE userid='$userid'";
       
       if ($conn->query($sql) === TRUE) {
         echo "Record deleted successfully";
@@ -32,7 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $servername = "localhost";
       $username = "root";
       $password = "";
-      $dbname = "testdb";
+      $dbname = "session_db";
+      $userid = $_COOKIE['userid'];
 
       // Create connection
       $conn = new mysqli($servername, $username, $password, $dbname);
@@ -41,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         die("Connection failed: " . $conn->connect_error);
       }
 
-      $sql = "UPDATE lunch SET lunchDish='$dish', lunchDrink='$drink' WHERE keyDate='$value'";
+      $sql = "UPDATE lunch SET lunchDish='$dish', lunchDrink='$drink' WHERE lunchDate='$value' AND userid='$userid'";
 
       if ($conn->query($sql) === TRUE) {
         echo "Record updated successfully";
@@ -105,7 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                           $servername = "localhost";
                           $username = "root";
                           $password = "";
-                          $dbname = "testdb";
+                          $dbname = "session_db";
+                          $userid = $_COOKIE['userid'];
 
                           // Create connection
                           $conn = new mysqli($servername, $username, $password, $dbname);
@@ -113,14 +116,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                           if ($conn->connect_error) {
                             die("Connection failed: " . $conn->connect_error);
                           }
-
-                          $sql = "SELECT keyDate, lunchDish, lunchDrink FROM lunch";
+                          
+                          $sql = "SELECT lunchDate, lunchDish, lunchDrink FROM lunch WHERE userid = '$userid'";
                           $result = $conn->query($sql);
+                          
 
                           if ($result->num_rows > 0) {
                               // output data of each row
                               while($row = $result->fetch_assoc()) {
-                                echo "<div class='card' style='width: 10rem; margin-bottom: 20px'><div class='card-body' style='background-color: rgb(230,251,255);'> <strong>Date</strong>: ". $row["keyDate"]. " <br> <strong>Dish</strong>: ". $row["lunchDish"]. " <br> <strong>Drink</strong>: " . $row["lunchDrink"] . "</div></div>";
+                                echo "<div class='card' style='width: 10rem; margin-bottom: 20px'><div class='card-body' style='background-color: rgb(230,251,255);'> <strong>Date</strong>: ". $row["lunchDate"]. " <br> <strong>Dish</strong>: ". $row["lunchDish"]. " <br> <strong>Drink</strong>: " . $row["lunchDrink"] . "</div></div>";
                               }
                           } else {
                               echo "0 results";
