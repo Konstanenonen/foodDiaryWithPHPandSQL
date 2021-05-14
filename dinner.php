@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $sql = "DELETE FROM dinner WHERE userid='$userid'";
       
       if ($conn->query($sql) === TRUE) {
-        echo "Dinner History cleared.";
+        echo "<p style='text-align: center;'><strong>Dinner History cleared</strong></p>";
       } else {
         echo "Error deleting record: " . $conn->error;
       }
@@ -75,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $time = $_POST['valueTime'];
 			$dish = $_POST['valueDish'];
 			$drink = $_POST['valueDrink'];
+      if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30) { //Checking that input value isn't too loo long or small
       //Connect to data base
       $servername = "localhost";
       $username = "root";
@@ -92,9 +93,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $sql = "UPDATE dinner SET dinnerDish='$dish', dinnerTime='$time', dinnerDrink='$drink' WHERE dinnerDate='$value' AND userid='$userid'";
 
       if ($conn->query($sql) === TRUE) {
-        echo "Dinner History updated.";
+        echo "<p style='text-align: center;'><strong>Dinner History updated</strong></p>";
       } else {
         echo "Error updating record: " . $conn->error;
+      }
+
+        $conn->close();
+      } else {
+        echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
       }
     }
 	}  

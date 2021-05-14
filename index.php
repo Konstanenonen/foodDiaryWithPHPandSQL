@@ -86,14 +86,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
 
 				if ($conn->query($sql) === TRUE) {
-				echo "New meal added to Breakfast History";
+				echo "<p style='text-align: center;'><strong>New meal added to Breakfast History</strong></p>";
 				} else {
 				echo "Error: " . $sql . "<br>" . $conn->error;
 				}
 
 				$conn->close();
 			} else {
-				echo "<p style='text-align: center;'><strong>The input value can't be too small or long.</strong></p>";
+				echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
 			}
 		}
 		else if (isset($_POST['checkLengthDinner'])){ // Checking text length
@@ -125,14 +125,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
 
 				if ($conn->query($sql) === TRUE) {
-				echo "New meal added to Dinner History";
+				echo "<p style='text-align: center;'><strong>New meal added to Dinner History</strong></p>";
 				} else {
 				echo "Error: " . $sql . "<br>" . $conn->error;
 				}
 
 				$conn->close();
 			} else {
-				echo "<p style='text-align: center;'><strong>The input value can't be too small or long.</strong></p>";
+				echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
 			}
 		}
 		else if (isset($_POST['checkLengthLunch'])){ // Checking text length
@@ -164,14 +164,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
 
 				if ($conn->query($sql) === TRUE) {
-				echo "New meal added to Lunch History";
+				echo "<p style='text-align: center;'><strong>New meal added to Lunch History</strong></p>";
 				} else {
 				echo "Error: " . $sql . "<br>" . $conn->error;
 				}
 
 				$conn->close();
 			} else {
-        echo "<p style='text-align: center;'><strong>The input value can't be too small or long.</strong></p>";
+        echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
 			}
     }
   }
