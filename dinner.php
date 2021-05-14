@@ -44,6 +44,7 @@
 	  </header>
 
 <?php
+require_once('dbinfo.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
 		if (isset($_POST['checkInteger'])) {
@@ -54,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $userid = $_COOKIE['userid'];
       
       // Create connection
-      $conn = new mysqli($servername, $username, $password, $dbname);
+      $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
       // Check connection
       if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -75,22 +76,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $time = $_POST['valueTime'];
 			$dish = $_POST['valueDish'];
 			$drink = $_POST['valueDrink'];
-      if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30) { //Checking that input value isn't too loo long or small
-      //Connect to data base
-      $servername = "localhost";
-      $username = "root";
-      $password = "";
-      $dbname = "fooddiary7_db";
       $userid = $_COOKIE['userid'];
-
-      // Create connection
-      $conn = new mysqli($servername, $username, $password, $dbname);
+      if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30) { //Checking that input value isn't too loo long or small
+     
+      //Connect to data base
+      $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
       // Check connection
       if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
       }
 
-      $sql = "UPDATE dinner SET dinnerDish='$dish', dinnerTime='$time', dinnerDrink='$drink' WHERE dinnerDate='$value' AND userid='$userid'";
+      $sanitizeValue = filter_var($value, FILTER_SANITIZE_STRING);
+      $sanitizeTime = filter_var($time, FILTER_SANITIZE_STRING);
+      $sanitizeDish = filter_var($dish, FILTER_SANITIZE_STRING);
+      $sanitizeDrink = filter_var($drink, FILTER_SANITIZE_STRING);
+
+      $sql = "UPDATE dinner SET dinnerDish='$sanitizeDish', dinnerTime='$sanitizeTime', dinnerDrink='$sanitizeDrink' WHERE dinnerDate='$sanitizeValue' AND userid='$userid'";
 
       if ($conn->query($sql) === TRUE) {
         echo "<p style='text-align: center;'><strong>Dinner History updated</strong></p>";
@@ -119,14 +120,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                       <h5 class="card-title" style="margin-bottom: 20px;">Dinner History</h5>
                       <div>
                         <?php
-                          $servername = "localhost";
-                          $username = "root";
-                          $password = "";
-                          $dbname = "fooddiary7_db";
+                          require_once('dbinfo.php');
                           $userid = $_COOKIE['userid'];
 
                           // Create connection
-                          $conn = new mysqli($servername, $username, $password, $dbname);
+                          $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                           // Check connection
                           if ($conn->connect_error) {
                             die("Connection failed: " . $conn->connect_error);

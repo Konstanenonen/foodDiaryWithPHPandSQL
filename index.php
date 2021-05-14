@@ -41,8 +41,18 @@
 	  </header>
 
 <?php
-
+require_once('dbinfo.php');
 session_start();
+
+//Creating custom function for error message to save time
+function tooBigOrSmall() {
+  echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
+}
+
+//Creating custom function for confirmation message to save time
+function addingConfirmation() {
+  echo "<p style='text-align: center;'><strong>New meal added to Dinner History</strong></p>";
+}
 
   /* If the session data does not exist (i.e we are starting a new session), try to set the session's data with 
      the cookies that were saved when the user made his/her last login (i.e: the cookies that the client browser is sending in its HTTP GET request to this index.php script)
@@ -65,13 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $userid =  $_SESSION['userid'];
 			if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30 && strlen($time) > 2 && strlen($time) < 30) {
 				
-				$servername = "localhost";
-				$username = "root";
-				$password = "";
-				$dbname = "fooddiary7_db";
-				
 				// Create connection
-				$conn = new mysqli($servername, $username, $password, $dbname);
+				$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 				// Check connection
 				if ($conn->connect_error) {
 					die("Connection failed: " . $conn->connect_error);
@@ -86,14 +91,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
 
 				if ($conn->query($sql) === TRUE) {
-				echo "<p style='text-align: center;'><strong>New meal added to Breakfast History</strong></p>";
+          addingConfirmation();
 				} else {
 				echo "Error: " . $sql . "<br>" . $conn->error;
 				}
 
 				$conn->close();
 			} else {
-				echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
+				tooBigOrSmall();
 			}
 		}
 		else if (isset($_POST['checkLengthDinner'])){ // Checking text length
@@ -103,14 +108,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $drink = $_POST['valueDrink3'];
       $userid =  $_SESSION['userid'];
 			if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30) {
-				$msg = "The input value '".$value."' does not exceed the max length";
-				$servername = "localhost";
-				$username = "root";
-				$password = "";
-				$dbname = "fooddiary7_db";
 				
 				// Create connection
-				$conn = new mysqli($servername, $username, $password, $dbname);
+				$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 				// Check connection
 				if ($conn->connect_error) {
 					die("Connection failed: " . $conn->connect_error);
@@ -125,14 +125,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
 
 				if ($conn->query($sql) === TRUE) {
-				echo "<p style='text-align: center;'><strong>New meal added to Dinner History</strong></p>";
+          addingConfirmation();
 				} else {
 				echo "Error: " . $sql . "<br>" . $conn->error;
 				}
 
 				$conn->close();
 			} else {
-				echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
+				tooBigOrSmall();
 			}
 		}
 		else if (isset($_POST['checkLengthLunch'])){ // Checking text length
@@ -142,14 +142,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $drink = $_POST['valueDrink2'];
       $userid =  $_SESSION['userid'];
 			if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30) {
-				$msg = "The input value '".$value."' does not exceed the max length";
-				$servername = "localhost";
-				$username = "root";
-				$password = "";
-				$dbname = "fooddiary7_db";
 				
 				// Create connection
-				$conn = new mysqli($servername, $username, $password, $dbname);
+				$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 				// Check connection
 				if ($conn->connect_error) {
 					die("Connection failed: " . $conn->connect_error);
@@ -164,14 +159,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
 
 				if ($conn->query($sql) === TRUE) {
-				echo "<p style='text-align: center;'><strong>New meal added to Lunch History</strong></p>";
+          addingConfirmation();
 				} else {
 				echo "Error: " . $sql . "<br>" . $conn->error;
 				}
 
 				$conn->close();
 			} else {
-        echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
+        tooBigOrSmall();
 			}
     }
   }
