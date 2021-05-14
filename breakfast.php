@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                           if ($result->num_rows > 0) {
                               // output data of each row
                               while($row = $result->fetch_assoc()) {
-                                echo "<div class='card' style='width: 10rem; margin-bottom: 20px'><div class='card-body' style='background-color: rgb(230,251,255);'> <strong>Date</strong>: ". $row["bDate"]. " <br> <strong>Time</strong>: ". $row["bTime"]. " <br> <strong>Dish</strong>: ". $row["bDish"]. " <br> <strong>Drink</strong>: " . $row["bDrink"] . "</div></div>";
+                                echo "<div class='card' style='width: 10rem; margin-bottom: 20px'><div class='card-body' style='background-color: rgb(230,251,255);'><h5 class='card-title'>" . $row["bDate"]. "</h5> <p class='card-text'><strong>Time</strong>: ". $row["bTime"]. " <br> <strong>Dish</strong>: ". $row["bDish"]. " <br> <strong>Drink</strong>: " . $row["bDrink"] . "</p></div></div>";
                               }
                           } else {
                               echo "0 results";
@@ -162,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                             <label for="exampleInputText" class="form-label">Edited Drink:</label>
                             <input name="valueDrink" class="form-control" type="text" aria-label="default input example">
                           </div>
-                          <button type="submit" name="checkUpdate" class="btn btn-primary">Submit</button>
+                          <button type="submit" name="checkUpdate" class="btn btn-primary">Edit</button>
                         </form>
                       </div>
                   </div>

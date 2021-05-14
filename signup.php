@@ -12,6 +12,8 @@
         <title>Sign Up</title>
     </head>
 
+    <body>
+
     <header>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -38,8 +40,6 @@
             </div>
           </nav>
 	  </header>
-
-    <body>
 
         <div class="container" style="margin-top: 5%">
           <div class="row">

@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $servername = "localhost";
       $username = "root";
       $password = "";
-      $dbname = "session_db";
+      $dbname = "fooddiary7_db";
       $userid = $_COOKIE['userid'];
       
       // Create connection
@@ -72,13 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $conn->close();
 		}  else if (isset($_POST['checkUpdate'])) {
       $value = $_POST['valueDate'];
+      $time = $_POST['valueTime'];
 			$dish = $_POST['valueDish'];
 			$drink = $_POST['valueDrink'];
       //Connect to data base
       $servername = "localhost";
       $username = "root";
       $password = "";
-      $dbname = "session_db";
+      $dbname = "fooddiary7_db";
       $userid = $_COOKIE['userid'];
 
       // Create connection
@@ -88,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         die("Connection failed: " . $conn->connect_error);
       }
 
-      $sql = "UPDATE dinner SET dinnerDish='$dish', dinnerDrink='$drink' WHERE dinnerDate='$value' AND userid='$userid'";
+      $sql = "UPDATE dinner SET dinnerDish='$dish', dinnerTime='$time', dinnerDrink='$drink' WHERE dinnerDate='$value' AND userid='$userid'";
 
       if ($conn->query($sql) === TRUE) {
         echo "Dinner History updated.";
@@ -115,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                           $servername = "localhost";
                           $username = "root";
                           $password = "";
-                          $dbname = "session_db";
+                          $dbname = "fooddiary7_db";
                           $userid = $_COOKIE['userid'];
 
                           // Create connection
@@ -125,13 +126,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                             die("Connection failed: " . $conn->connect_error);
                           }
 
-                          $sql = "SELECT dinnerDate, dinnerDish, dinnerDrink FROM dinner WHERE userid='$userid'";
+                          $sql = "SELECT dinnerDate, dinnerTime, dinnerDish, dinnerDrink FROM dinner WHERE userid='$userid'";
                           $result = $conn->query($sql);
 
                           if ($result->num_rows > 0) {
                               // output data of each row
                               while($row = $result->fetch_assoc()) {
-                                echo "<div class='card' style='width: 10rem; margin-bottom: 20px;'><div class='card-body' style='background-color: rgb(230,251,255);'> <strong>Date</strong>: ". $row["dinnerDate"]. " <br> <strong>Dish</strong>: ". $row["dinnerDish"]. " <br> <strong>Drink</strong>: " . $row["dinnerDrink"] . "</div></div>";
+                                echo "<div class='card' style='width: 10rem; margin-bottom: 20px'><div class='card-body' style='background-color: rgb(230,251,255);'><h5 class='card-title'>" . $row["dinnerDate"]. "</h5> <p class='card-text'><strong>Time</strong>: ". $row["dinnerTime"]. " <br> <strong>Dish</strong>: ". $row["dinnerDish"]. " <br> <strong>Drink</strong>: " . $row["dinnerDrink"] . "</p></div></div>";
                               }
                           } else {
                               echo "0 results";
@@ -150,18 +151,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                         <h5 class="card-title">Edit Dinner History</h5>
                         <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
                           <div class="mb-3">
-                              <label for="exampleInputText" class="form-label">Where Date Was</label>
+                              <label for="exampleInputText" class="form-label">Where Date was:</label>
                               <input name="valueDate" class="form-control" type="text" aria-label="default input example">
                           </div>
                           <div class="mb-3">
-                            <label for="exampleInputText" class="form-label">Edited Dish</label>
+                              <label for="exampleInputText" class="form-label">Edited Time:</label>
+                              <input name="valueTime" class="form-control" type="text" aria-label="default input example">
+                          </div>
+                          <div class="mb-3">
+                            <label for="exampleInputText" class="form-label">Edited Dish:</label>
                             <input name="valueDish" class="form-control" type="text" aria-label="default input example">
                           </div>
                           <div class="mb-3">
-                            <label for="exampleInputText" class="form-label">Edited Drink</label>
+                            <label for="exampleInputText" class="form-label">Edited Drink:</label>
                             <input name="valueDrink" class="form-control" type="text" aria-label="default input example">
                           </div>
-                          <button type="submit" name="checkUpdate" class="btn btn-primary">Submit</button>
+                          <button type="submit" name="checkUpdate" class="btn btn-primary">Edit</button>
                         </form>
                       </div>
                   </div>

@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 				$conn->close();
 			} else {
-				echo "The input value can't be too small or long.";
+				echo "<p style='text-align: center;'><strong>The input value can't be too small or long.</strong></p>";
 			}
 		}
 		else if (isset($_POST['checkLengthDinner'])){ // Checking text length
@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 				$conn->close();
 			} else {
-				echo "The input value can't be too small or long.";
+				echo "<p style='text-align: center;'><strong>The input value can't be too small or long.</strong></p>";
 			}
 		}
 		else if (isset($_POST['checkLengthLunch'])){ // Checking text length
@@ -171,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 				$conn->close();
 			} else {
-        echo "The input value can't be too small or long.";
+        echo "<p style='text-align: center;'><strong>The input value can't be too small or long.</strong></p>";
 			}
     }
   }
@@ -186,10 +186,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         <?php
           // Generate the navigation menu
           if (isset($_SESSION['userid'])) {
-            echo '<div class="card" style="width: 25rem; background-color: rgb(250, 251, 252);">';
+            echo '<div class="card" style="width: 22rem; background-color: rgb(250, 251, 252);">';
             echo '<div class="card-body">';
             echo '<h5 class="card-title">Hello, '. $_SESSION['username'] . '!</h5>'; 
-            echo '<class="card-text"> Below you can add new meals to your Food Diary.<br>';
+            echo '<class="card-text"> Below you can add new meals to your Food Diary. Navigate from above to see your Food Diary pages.<br>';
             echo '<br><button type="button" class="btn btn-primary"><a href="logout.php" style="color: white;">Log Out</a></button></p>';
             echo '</div>';
             echo '</div>';
@@ -215,19 +215,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                       <h5 class="card-title">Breakfast</h5>
                       <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
                         <div class="mb-3">
-                            <label for="exampleInputText" class="form-label">Date</label>
+                            <label for="exampleInputText" class="form-label">Date:</label>
                             <input name="valueDate" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputText" class="form-label">Time</label>
+                            <label for="exampleInputText" class="form-label">Time:</label>
                             <input name="valueTime" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <div class="mb-3">
-                          <label for="exampleInputText" class="form-label">Dish</label>
+                          <label for="exampleInputText" class="form-label">Dish:</label>
                           <input name="valueDish" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <div class="mb-3">
-                          <label for="exampleInputText" class="form-label">Drink</label>
+                          <label for="exampleInputText" class="form-label">Drink:</label>
                           <input name="valueDrink" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <button type="submit" name="checkLengthBreakfast" class="btn btn-primary">Submit</button>
@@ -241,19 +241,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                       <h5 class="card-title">Lunch</h5>
                       <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
                         <div class="mb-3">
-                            <label for="exampleInputText" class="form-label">Date</label>
+                            <label for="exampleInputText" class="form-label">Date:</label>
                             <input name="valueDate2" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputText" class="form-label">Time</label>
+                            <label for="exampleInputText" class="form-label">Time:</label>
                             <input name="valueTime2" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <div class="mb-3">
-                          <label for="exampleInputText" class="form-label">Dish</label>
+                          <label for="exampleInputText" class="form-label">Dish:</label>
                           <input name="valueDish2" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <div class="mb-3">
-                          <label for="exampleInputText" class="form-label">Drink</label>
+                          <label for="exampleInputText" class="form-label">Drink:</label>
                           <input name="valueDrink2" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <button name="checkLengthLunch" type="submit" class="btn btn-primary">Submit</button>
@@ -267,19 +267,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                       <h5 class="card-title">Dinner</h5>
                       <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
                         <div class="mb-3">
-                            <label for="exampleInputText" class="form-label">Date</label>
+                            <label for="exampleInputText" class="form-label">Date:</label>
                             <input name="valueDate3" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <div class="mb-3">
                         <div class="mb-3">
-                            <label for="exampleInputText" class="form-label">Time</label>
+                            <label for="exampleInputText" class="form-label">Time:</label>
                             <input name="valueTime3" class="form-control" type="text" aria-label="default input example">
                         </div>
-                          <label for="exampleInputText" class="form-label">Dish</label>
+                          <label for="exampleInputText" class="form-label">Dish:</label>
                           <input name="valueDish3" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <div class="mb-3">
-                          <label for="exampleInputText" class="form-label">Drink</label>
+                          <label for="exampleInputText" class="form-label">Drink:</label>
                           <input name="valueDrink3" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <button type="submit" name="checkLengthDinner" class="btn btn-primary">Submit</button>

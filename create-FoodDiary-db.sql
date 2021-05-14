@@ -13,7 +13,7 @@ CREATE TABLE breakfast (
   bDish varchar(32) NOT NULL,
   bDrink varchar(32) NOT NULL,
   userid int NOT NULL,
-  CONSTRAINT PK_breakfast PRIMARY KEY (bDate,bTime)
+  CONSTRAINT PK_breakfast PRIMARY KEY (bDate,bTime,userid)
 );
 CREATE TABLE lunch (
   lunchDate varchar(32) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE lunch (
   lunchDish varchar(32) NOT NULL,
   lunchDrink varchar(32) NOT NULL,
   userid int NOT NULL,
-  CONSTRAINT PK_lunch PRIMARY KEY (lunchDate,lunchTime)
+  CONSTRAINT PK_lunch PRIMARY KEY (lunchDate,lunchTime,userid)
 );
 CREATE TABLE Dinner (
   dinnerDate varchar(32) NOT NULL,
@@ -29,6 +29,6 @@ CREATE TABLE Dinner (
   dinnerDish varchar(32) NOT NULL,
   dinnerDrink varchar(32) NOT NULL,
   userid int NOT NULL,
-  CONSTRAINT PK_dinner PRIMARY KEY (dinnerDate,dinnerTime)
+  CONSTRAINT PK_dinner PRIMARY KEY (dinnerDate,dinnerTime,userid)
 );
 
