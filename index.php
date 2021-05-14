@@ -184,8 +184,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             echo '<div class="card" style="width: 22rem; background-color: rgb(250, 251, 252);">';
             echo '<div class="card-body">';
             echo '<h5 class="card-title">Hello, '. $_SESSION['username'] . '!</h5>'; 
-            echo '<class="card-text"> Below you can add new meals to your Food Diary. Navigate from above to see your Food Diary pages.<br>';
-            echo '<br><button type="button" class="btn btn-primary"><a href="logout.php" style="color: white;">Log Out</a></button></p>';
+            echo '<p class="card-text"> Below you can add new meals to your Food Diary. From above you can view your Diary pages.<br>';
+            echo '<br><a href="logout.php" class="btn btn-primary" style="color: white;">Log Out</a></p>';
             echo '</div>';
             echo '</div>';
           }

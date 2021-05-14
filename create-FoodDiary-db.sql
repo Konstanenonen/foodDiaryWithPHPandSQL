@@ -1,4 +1,4 @@
-CREATE DATABASE fooddiary7_db;
+CREATE DATABASE fooddiary_db;
 
 -- Table structure for table user
 CREATE TABLE users (
@@ -38,20 +38,20 @@ INSERT INTO users VALUES (3, 'Li', '03573');
 INSERT INTO users VALUES (4, 'Andreas', '04260');
 INSERT INTO users VALUES (5, 'Charlotte', '03920');
 
-INSERT INTO breakfast VALUES (21.2.2021, '7.15', 'Bread', 'cocacola');
-INSERT INTO breakfast VALUES (22.2.2021, '7.12', 'Eggs', 'pepsi');
-INSERT INTO breakfast VALUES (23.2.2021, '7.20', 'Cereals', 'juice');
-INSERT INTO breakfast VALUES (24.2.2021, '7.30', 'Pies', 'pepsimax');
-INSERT INTO breakfast VALUES (25.2.2021, '7.40', 'Chicken', 'whiskey');
+INSERT INTO breakfast VALUES ('21.2.2021', '7.15', 'Bread', 'cocacola', 1);
+INSERT INTO breakfast VALUES ('22.2.2021', '7.12', 'Eggs', 'pepsi', 2);
+INSERT INTO breakfast VALUES ('23.2.2021', '7.20', 'Cereals', 'juice', 3);
+INSERT INTO breakfast VALUES ('24.2.2021', '7.30', 'Pies', 'pepsimax', 4);
+INSERT INTO breakfast VALUES ('25.2.2021', '7.40', 'Chicken', 'whiskey', 5);
 
-INSERT INTO lunch VALUES (21.2.2021, '12.15', 'Bread', 'cocacola');
-INSERT INTO lunch VALUES (22.2.2021, '11.12', 'Eggs', 'pepsi');
-INSERT INTO lunch VALUES (23.2.2021, '10.20', 'Cereals', 'juice');
-INSERT INTO lunch VALUES (24.2.2021, '11.30', 'Pies', 'pepsimax');
-INSERT INTO lunch VALUES (25.2.2021, '11.40', 'Chicken', 'whiskey');
+INSERT INTO lunch VALUES ('21.2.2021', '12.15', 'Bread', 'cocacola', 1);
+INSERT INTO lunch VALUES ('22.2.2021', '11.12', 'Eggs', 'pepsi', 2);
+INSERT INTO lunch VALUES ('23.2.2021', '10.20', 'Cereals', 'juice', 3);
+INSERT INTO lunch VALUES ('24.2.2021', '11.30', 'Pies', 'pepsimax', 4);
+INSERT INTO lunch VALUES ('25.2.2021', '11.40', 'Chicken', 'whiskey', 5);
 
-INSERT INTO dinner VALUES (21.2.2021, '16.15', 'Bread', 'cocacola');
-INSERT INTO dinner VALUES (22.2.2021, '17.12', 'Eggs', 'pepsi');
-INSERT INTO dinner VALUES (23.2.2021, '16.20', 'Cereals', 'juice');
-INSERT INTO dinner VALUES (24.2.2021, '18.30', 'Pies', 'pepsimax');
-INSERT INTO dinner VALUES (25.2.2021, '19.40', 'Chicken', 'whiskey');
+INSERT INTO dinner VALUES ('21.2.2021', '16.15', 'Bread', 'cocacola', 1);
+INSERT INTO dinner VALUES ('22.2.2021', '17.12', 'Eggs', 'pepsi', 2);
+INSERT INTO dinner VALUES ('23.2.2021', '16.20', 'Cereals', 'juice', 3);
+INSERT INTO dinner VALUES ('24.2.2021', '18.30', 'Pies', 'pepsimax', 4);
+INSERT INTO dinner VALUES ('25.2.2021', '19.40', 'Chicken', 'whiskey', 5);

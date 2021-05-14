@@ -88,8 +88,9 @@ require_once('dbinfo.php');
         mysqli_close($dbc);
                 
         // Confirm success with the user
-        echo 'Thanks for signing up, '. $username .'!</br>';
-        echo '<p>Your new account has been successfully created. <a href="index.php">Go back to the homepage</a>.</p>';
+        echo '<div class="card" style="width: 18rem; background-color: rgb(250, 251, 252);"><div class="card-body"><h5 class="card-title">Thanks for signing up, '. $username .'!</h5>';
+        echo '<p class="card-text">Your new account has been successfully created.</p>';
+        echo '<a href="index.php" class="btn btn-primary">Back to Input Page</a></div>';
         
         // echo '<p>Your new account has been successfully created. You\'re now ready to <a href="login.php">log in</a>.</p>';
             
@@ -98,12 +99,12 @@ require_once('dbinfo.php');
       }
       else {
         // An account already exists for this username, so display an error message
-        echo 'An account already exists for this username. Please use a different address.';
+        echo '<p style="color: red;">An account already exists for this username. Please use a different address.</p>';
         $username = "";
       }
     }
     else {
-      echo 'You must enter all of the sign-up data, including the desired password twice.';
+      echo '<p style="color: red;">You must enter all of the sign-up data, including the desired password twice.</p>';
     }
   }
 
