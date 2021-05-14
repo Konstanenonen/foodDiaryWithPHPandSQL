@@ -20,7 +20,7 @@
 
       if (!empty($username) && !empty($password)) {
         // Fetch the userid, username, password, and city from the database
-        $query = "SELECT userid, username, city FROM customer WHERE username = '$username' AND password = SHA('$password')";
+        $query = "SELECT userid, username FROM customer WHERE username = '$username' AND password = SHA('$password')";
         $data = mysqli_query($dbc, $query);
 
         if (mysqli_num_rows($data) == 1) {
@@ -29,11 +29,9 @@
           
           $_SESSION['userid'] = $row['userid'];
           $_SESSION['username'] = $row['username'];
-          $_SESSION['city'] = $row['city'];
           
           setcookie('userid', $row['userid'], time() + (60 * 60 * 24 * 30));    // expires in 30 days
           setcookie('username', $row['username'], time() + (60 * 60 * 24 * 30));  // expires in 30 days
-          setcookie('city', $row['city'], time() + (60 * 60 * 24 * 30));  // expires in 30 days
           
           // Check this nice way to get the URL of the app's home page
           $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';

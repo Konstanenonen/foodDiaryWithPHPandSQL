@@ -11,8 +11,6 @@ session_start();
     if (isset($_COOKIE['userid']) && isset($_COOKIE['username'])) {
       $_SESSION['userid'] = $_COOKIE['userid'];
       $_SESSION['username'] = $_COOKIE['username'];
-      // Using city here is for demonstration purposes. In real applications, you should not save personal data in cookies
-      $_SESSION['city'] = $_COOKIE['city']; 
     }
   }
 
@@ -169,8 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             echo '<div class="card" style="width: 25rem;">';
             echo '<div class="card-body">';
             echo '<h5 class="card-title">Hello, '. $_SESSION['username'] . '!</h5>'; 
-            echo '<class="card-text">Here is the proof that I remember you:<br>';
-            echo 'You were born in ' . $_SESSION['city'] . '!</class=><br>';
+            echo '<class="card-text"> Below you can add new meals to your Food Diary.<br>';
             echo '<br><button type="button" class="btn btn-primary"><a href="logout.php" style="color: white;">Log Out</a></button></p>';
             echo '</div>';
             echo '</div>';

@@ -62,9 +62,8 @@ require_once('dbinfo.php');
     $username = mysqli_real_escape_string($dbc, trim($_POST['username'])); //mysqli_real_escape_string is used to enhance security
     $password1 = mysqli_real_escape_string($dbc, trim($_POST['password1']));
     $password2 = mysqli_real_escape_string($dbc, trim($_POST['password2']));
-    $city = mysqli_real_escape_string($dbc, trim($_POST['city']));
 
-    if (!empty($username) && !empty($password1) && !empty($password2) && !empty($city) && ($password1 == $password2)) {
+    if (!empty($username) && !empty($password1) && !empty($password2) && ($password1 == $password2)) {
       // Check that the provided username does not yet exist in the database
       $query = "SELECT * FROM customer WHERE username = '$username'";
       $data = mysqli_query($dbc, $query);
@@ -72,7 +71,7 @@ require_once('dbinfo.php');
         // The username does not exist yet, so insert the data into the database.
       	// No need to add userid, because teh userid is configured with AUTO-INCREMENT in the table. MySQL will automatically generate the userid
         // SHA is used to encrypt the password
-      	$query = "INSERT INTO customer (username, password, city) VALUES ('$username', SHA('$password1'), '$city')"; 
+      	$query = "INSERT INTO customer (username, password) VALUES ('$username', SHA('$password1'))"; 
         mysqli_query($dbc, $query);
         
         // Get the userid of the just created account
@@ -83,10 +82,8 @@ require_once('dbinfo.php');
         // Set the session variables to hold the userid, username, and city of the just created account. Set also the cookies.
         $_SESSION['userid'] = $row['userid'];
         $_SESSION['username'] = $username;
-        $_SESSION['city'] = $city;
         setcookie('userid', $row['userid'], time() + (60 * 60 * 24 * 30));    // expires in 30 days
         setcookie('username', $username, time() + (60 * 60 * 24 * 30));  // expires in 30 days     
-        setcookie('city', $city, time() + (60 * 60 * 24 * 30));  // expires in 30 days
         
         mysqli_close($dbc);
                 
@@ -116,20 +113,16 @@ require_once('dbinfo.php');
       <div class="col-sm">
         <form action='signup.php' method='post'>
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Enter yout username:</label>
-            <input type="text" name="username" class="form-control" id="username" aria-describedby="username" style="width: 300px;">
-        </div>
-        <div div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">In which city were you born?:</label>
-          <input type="text" name='city' class="form-control" id="city" style="width: 300px;">
+            <label for="exampleInputEmail1" class="form-label">Enter your username:</label>
+            <input type="text" name="username" class="form-control" id="username" aria-describedby="username" autocomplete="new-username" style="width: 300px;">
         </div>
         <div div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Enter a password:</label>
-          <input type="password" name='password1' class="form-control" id="password1" style="width: 300px;">
+          <input type="password" name='password1' autocomplete="new-password" class="form-control" id="password1" style="width: 300px;">
         </div>
         <div div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Retype the password:</label>
-          <input type="password" name='password2' class="form-control" id="password2" style="width: 300px;">
+          <input type="password" name='password2' autocomplete="new-password-again" class="form-control" id="password2" style="width: 300px;">
         </div>
         <button type="submit" name='signing-up' class="btn btn-primary">Sign Up</button>
       </form>
