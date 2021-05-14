@@ -20,7 +20,7 @@
 
       if (!empty($username) && !empty($password)) {
         // Fetch the userid, username, password, and city from the database
-        $query = "SELECT userid, username FROM customer WHERE username = '$username' AND password = SHA('$password')";
+        $query = "SELECT userid, username FROM users WHERE username = '$username' AND password = SHA('$password')";
         $data = mysqli_query($dbc, $query);
 
         if (mysqli_num_rows($data) == 1) {

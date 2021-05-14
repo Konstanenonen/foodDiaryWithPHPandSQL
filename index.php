@@ -1,122 +1,4 @@
 
-<?php
-
-session_start();
-
-  /* If the session data does not exist (i.e we are starting a new session), try to set the session's data with 
-     the cookies that were saved when the user made his/her last login (i.e: the cookies that the client browser is sending in its HTTP GET request to this index.php script)
-     This is the code that allows the app to remember the user that last logged in to the app (in the browser/computer that's issuing the HTTP GET request) and left the app without logging out 
-  */
-  if (!isset($_SESSION['userid'])) {
-    if (isset($_COOKIE['userid']) && isset($_COOKIE['username'])) {
-      $_SESSION['userid'] = $_COOKIE['userid'];
-      $_SESSION['username'] = $_COOKIE['username'];
-    }
-  }
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-	{
-		if (isset($_POST['checkInteger'])) { // Check if an input value is an integer
-			$value = $_POST['valueDate'];
-			$dish = $_POST['valueDish'];
-			$drink = $_POST['valueDrink'];
-      $userid =  $_SESSION['userid'];
-			if (filter_var($value, FILTER_VALIDATE_INT) == false) {
-				
-				$servername = "localhost";
-				$username = "root";
-				$password = "";
-				$dbname = "session_db";
-				
-				// Create connection
-				$conn = new mysqli($servername, $username, $password, $dbname);
-				// Check connection
-				if ($conn->connect_error) {
-					die("Connection failed: " . $conn->connect_error);
-}
-
-				$sql = "INSERT INTO breakfast (bDate, bDish, bDrink, userid)
-				VALUES ('$value', '$dish', '$drink', '$userid')";
-
-				if ($conn->query($sql) === TRUE) {
-				echo "New record created successfully";
-				} else {
-				echo "Error: " . $sql . "<br>" . $conn->error;
-				}
-
-				$conn->close();
-			} else {
-				$msg = "The input value ".$value." is NOT an integer";
-			}
-		}
-		else if (isset($_POST['checkLength'])){ // Checking text length
-			$value = $_POST['valueDate3'];
-      $dish = $_POST['valueDish3'];
-      $drink = $_POST['valueDrink3'];
-      $userid =  $_SESSION['userid'];
-			if (strlen($value)<=20) {
-				$msg = "The input value '".$value."' does not exceed the max length";
-				$servername = "localhost";
-				$username = "root";
-				$password = "";
-				$dbname = "session_db";
-				
-				// Create connection
-				$conn = new mysqli($servername, $username, $password, $dbname);
-				// Check connection
-				if ($conn->connect_error) {
-					die("Connection failed: " . $conn->connect_error);
-}
-
-				$sql = "INSERT INTO dinner (dinnerDate, dinnerDish, dinnerDrink, userid)
-				VALUES ('$value', '$dish', '$drink', '$userid')";
-
-				if ($conn->query($sql) === TRUE) {
-				echo "New record created successfully";
-				} else {
-				echo "Error: " . $sql . "<br>" . $conn->error;
-				}
-
-				$conn->close();
-			} else {
-				$msg = "The input value '".$value."' EXCEEDS the maximum allowed length of 5 chars";
-			}
-		}
-		else if (isset($_POST['checkLength2'])){ // Checking text length
-			$value = $_POST['valueDate2'];
-      $dish = $_POST['valueDish2'];
-      $drink = $_POST['valueDrink2'];
-      $userid =  $_SESSION['userid'];
-			if (strlen($value)<=20) {
-				$msg = "The input value '".$value."' does not exceed the max length";
-				$servername = "localhost";
-				$username = "root";
-				$password = "";
-				$dbname = "session_db";
-				
-				// Create connection
-				$conn = new mysqli($servername, $username, $password, $dbname);
-				// Check connection
-				if ($conn->connect_error) {
-					die("Connection failed: " . $conn->connect_error);
-}
-
-				$sql = "INSERT INTO lunch (lunchDate, lunchDish, lunchDrink, userid)
-				VALUES ('$value', '$dish', '$drink', '$userid')";
-
-				if ($conn->query($sql) === TRUE) {
-				echo "New record created successfully";
-				} else {
-				echo "Error: " . $sql . "<br>" . $conn->error;
-				}
-
-				$conn->close();
-			} else {
-				$msg = "The input value '".$value."' EXCEEDS the maximum allowed length of 5 chars";
-			}
-    }
-  }
-?>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -127,6 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
     <title>Hello, world!</title>
+  </head>
+
+  <body>
+
     <header>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -153,7 +39,143 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             </div>
           </nav>
 	  </header>
-    <body>
+
+<?php
+
+session_start();
+
+  /* If the session data does not exist (i.e we are starting a new session), try to set the session's data with 
+     the cookies that were saved when the user made his/her last login (i.e: the cookies that the client browser is sending in its HTTP GET request to this index.php script)
+     This is the code that allows the app to remember the user that last logged in to the app (in the browser/computer that's issuing the HTTP GET request) and left the app without logging out 
+  */
+  if (!isset($_SESSION['userid'])) {
+    if (isset($_COOKIE['userid']) && isset($_COOKIE['username'])) {
+      $_SESSION['userid'] = $_COOKIE['userid'];
+      $_SESSION['username'] = $_COOKIE['username'];
+    }
+  }
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+	{
+		if (isset($_POST['checkLengthBreakfast'])) {  // Checking text length
+			$value = $_POST['valueDate'];
+      $time = $_POST['valueTime'];
+			$dish = $_POST['valueDish'];
+			$drink = $_POST['valueDrink'];
+      $userid =  $_SESSION['userid'];
+			if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30 && strlen($time) > 2 && strlen($time) < 30) {
+				
+				$servername = "localhost";
+				$username = "root";
+				$password = "";
+				$dbname = "fooddiary7_db";
+				
+				// Create connection
+				$conn = new mysqli($servername, $username, $password, $dbname);
+				// Check connection
+				if ($conn->connect_error) {
+					die("Connection failed: " . $conn->connect_error);
+}
+
+        $sanitizeValue = filter_var($value, FILTER_SANITIZE_STRING);
+        $sanitizeTime = filter_var($time, FILTER_SANITIZE_STRING);
+        $sanitizeDish = filter_var($dish, FILTER_SANITIZE_STRING);
+        $sanitizeDrink = filter_var($drink, FILTER_SANITIZE_STRING);
+
+				$sql = "INSERT INTO breakfast (bDate, bTime, bDish, bDrink, userid)
+				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
+
+				if ($conn->query($sql) === TRUE) {
+				echo "New meal added to Breakfast History";
+				} else {
+				echo "Error: " . $sql . "<br>" . $conn->error;
+				}
+
+				$conn->close();
+			} else {
+				echo "The input value can't be too small or long.";
+			}
+		}
+		else if (isset($_POST['checkLengthDinner'])){ // Checking text length
+			$value = $_POST['valueDate3'];
+      $time = $_POST['valueTime3'];
+      $dish = $_POST['valueDish3'];
+      $drink = $_POST['valueDrink3'];
+      $userid =  $_SESSION['userid'];
+			if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30) {
+				$msg = "The input value '".$value."' does not exceed the max length";
+				$servername = "localhost";
+				$username = "root";
+				$password = "";
+				$dbname = "fooddiary7_db";
+				
+				// Create connection
+				$conn = new mysqli($servername, $username, $password, $dbname);
+				// Check connection
+				if ($conn->connect_error) {
+					die("Connection failed: " . $conn->connect_error);
+}
+
+        $sanitizeValue = filter_var($value, FILTER_SANITIZE_STRING);
+        $sanitizeTime = filter_var($time, FILTER_SANITIZE_STRING);
+        $sanitizeDish = filter_var($dish, FILTER_SANITIZE_STRING);
+        $sanitizeDrink = filter_var($drink, FILTER_SANITIZE_STRING);
+
+				$sql = "INSERT INTO dinner (dinnerDate, dinnerTime, dinnerDish, dinnerDrink, userid)
+				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
+
+				if ($conn->query($sql) === TRUE) {
+				echo "New meal added to Dinner History";
+				} else {
+				echo "Error: " . $sql . "<br>" . $conn->error;
+				}
+
+				$conn->close();
+			} else {
+				echo "The input value can't be too small or long.";
+			}
+		}
+		else if (isset($_POST['checkLengthLunch'])){ // Checking text length
+			$value = $_POST['valueDate2'];
+      $time = $_POST['valueTime2'];
+      $dish = $_POST['valueDish2'];
+      $drink = $_POST['valueDrink2'];
+      $userid =  $_SESSION['userid'];
+			if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30) {
+				$msg = "The input value '".$value."' does not exceed the max length";
+				$servername = "localhost";
+				$username = "root";
+				$password = "";
+				$dbname = "fooddiary7_db";
+				
+				// Create connection
+				$conn = new mysqli($servername, $username, $password, $dbname);
+				// Check connection
+				if ($conn->connect_error) {
+					die("Connection failed: " . $conn->connect_error);
+}
+
+        $sanitizeValue = filter_var($value, FILTER_SANITIZE_STRING);
+        $sanitizeTime = filter_var($time, FILTER_SANITIZE_STRING);
+        $sanitizeDish = filter_var($dish, FILTER_SANITIZE_STRING);
+        $sanitizeDrink = filter_var($drink, FILTER_SANITIZE_STRING);
+
+				$sql = "INSERT INTO lunch (lunchDate, lunchTime, lunchDish, lunchDrink, userid)
+				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
+
+				if ($conn->query($sql) === TRUE) {
+				echo "New meal added to Lunch History";
+				} else {
+				echo "Error: " . $sql . "<br>" . $conn->error;
+				}
+
+				$conn->close();
+			} else {
+        echo "The input value can't be too small or long.";
+			}
+    }
+  }
+?>
 
     <div class="container">
       <div class="row" style="margin-top: 75px; margin-bottom: 75px;">
@@ -164,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         <?php
           // Generate the navigation menu
           if (isset($_SESSION['userid'])) {
-            echo '<div class="card" style="width: 25rem;">';
+            echo '<div class="card" style="width: 25rem; background-color: rgb(250, 251, 252);">';
             echo '<div class="card-body">';
             echo '<h5 class="card-title">Hello, '. $_SESSION['username'] . '!</h5>'; 
             echo '<class="card-text"> Below you can add new meals to your Food Diary.<br>';
@@ -173,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             echo '</div>';
           }
           else {
-            echo '<div class="card" style="width: 15rem; text-align: center;">';
+            echo '<div class="card" style="width: 15rem; text-align: center; background-color: rgb(250, 251, 252);">';
             echo '<div class="card-body">';
             echo '<h5 class="card-title">Hello visitor!</h5>';
             echo '<p class="card-text"><button type="button" class="btn btn-primary"><a href="login.php" style="color: white;">Log In</a></button> or <button type="button" class="btn btn-primary"><a href="signup.php" style="color: white;">Sign Up</a></button></p>';
@@ -188,13 +210,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <div class="container">
             <div class="row">
               <div class="col-sm">
-                <div class="card" style="width: 18rem; margin-bottom: 50px;">
+                <div class="card" style="width: 18rem; margin-bottom: 50px; background-color: rgb(250, 251, 252);" >
                     <div class="card-body">
                       <h5 class="card-title">Breakfast</h5>
                       <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
                         <div class="mb-3">
                             <label for="exampleInputText" class="form-label">Date</label>
                             <input name="valueDate" class="form-control" type="text" aria-label="default input example">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputText" class="form-label">Time</label>
+                            <input name="valueTime" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <div class="mb-3">
                           <label for="exampleInputText" class="form-label">Dish</label>
@@ -204,19 +230,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                           <label for="exampleInputText" class="form-label">Drink</label>
                           <input name="valueDrink" class="form-control" type="text" aria-label="default input example">
                         </div>
-                        <button type="submit" name="checkInteger" class="btn btn-primary">Submit</button>
+                        <button type="submit" name="checkLengthBreakfast" class="btn btn-primary">Submit</button>
                       </form>
                     </div>
                   </div>
               </div>
               <div class="col-sm">
-                <div class="card" style="width: 18rem; margin-bottom: 50px;">
+                <div class="card" style="width: 18rem; margin-bottom: 50px; background-color: rgb(250, 251, 252);">
                     <div class="card-body">
                       <h5 class="card-title">Lunch</h5>
                       <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
                         <div class="mb-3">
                             <label for="exampleInputText" class="form-label">Date</label>
                             <input name="valueDate2" class="form-control" type="text" aria-label="default input example">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputText" class="form-label">Time</label>
+                            <input name="valueTime2" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <div class="mb-3">
                           <label for="exampleInputText" class="form-label">Dish</label>
@@ -226,13 +256,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                           <label for="exampleInputText" class="form-label">Drink</label>
                           <input name="valueDrink2" class="form-control" type="text" aria-label="default input example">
                         </div>
-                        <button name="checkLength2" type="submit" class="btn btn-primary">Submit</button>
+                        <button name="checkLengthLunch" type="submit" class="btn btn-primary">Submit</button>
                       </form>
                     </div>
                   </div>
               </div>
               <div class="col-sm">
-                <div class="card" style="width: 18rem; margin-bottom: 50px;">
+                <div class="card" style="width: 18rem; margin-bottom: 50px; background-color: rgb(250, 251, 252);">
                     <div class="card-body">
                       <h5 class="card-title">Dinner</h5>
                       <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
@@ -241,6 +271,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                             <input name="valueDate3" class="form-control" type="text" aria-label="default input example">
                         </div>
                         <div class="mb-3">
+                        <div class="mb-3">
+                            <label for="exampleInputText" class="form-label">Time</label>
+                            <input name="valueTime3" class="form-control" type="text" aria-label="default input example">
+                        </div>
                           <label for="exampleInputText" class="form-label">Dish</label>
                           <input name="valueDish3" class="form-control" type="text" aria-label="default input example">
                         </div>
@@ -248,7 +282,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                           <label for="exampleInputText" class="form-label">Drink</label>
                           <input name="valueDrink3" class="form-control" type="text" aria-label="default input example">
                         </div>
-                        <button type="submit" name="checkLength" class="btn btn-primary">Submit</button>
+                        <button type="submit" name="checkLengthDinner" class="btn btn-primary">Submit</button>
                       </form>
                     </div>
                   </div>

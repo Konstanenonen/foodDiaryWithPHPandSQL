@@ -65,17 +65,17 @@ require_once('dbinfo.php');
 
     if (!empty($username) && !empty($password1) && !empty($password2) && ($password1 == $password2)) {
       // Check that the provided username does not yet exist in the database
-      $query = "SELECT * FROM customer WHERE username = '$username'";
+      $query = "SELECT * FROM users WHERE username = '$username'";
       $data = mysqli_query($dbc, $query);
       if (mysqli_num_rows($data) == 0) {
         // The username does not exist yet, so insert the data into the database.
       	// No need to add userid, because teh userid is configured with AUTO-INCREMENT in the table. MySQL will automatically generate the userid
         // SHA is used to encrypt the password
-      	$query = "INSERT INTO customer (username, password) VALUES ('$username', SHA('$password1'))"; 
+      	$query = "INSERT INTO users (username, password) VALUES ('$username', SHA('$password1'))"; 
         mysqli_query($dbc, $query);
         
         // Get the userid of the just created account
-        $query = "SELECT userid FROM customer WHERE username = '$username'";
+        $query = "SELECT userid FROM users WHERE username = '$username'";
         $data = mysqli_query($dbc, $query);
         $row = mysqli_fetch_array($data);
         

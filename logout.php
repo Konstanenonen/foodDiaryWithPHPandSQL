@@ -16,10 +16,9 @@
     session_destroy();
   }
 
-  // Delete the userid, username and city cookies by setting their expirations to an hour ago (3600 secs)
+  // Delete the userid, username cookies by setting their expirations to an hour ago (3600 secs)
   setcookie('userid', '', time() - 3600);
   setcookie('username', '', time() - 3600);
-  setcookie('city', '', time() - 3600);
     
   // Redirect to the home page
   $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';

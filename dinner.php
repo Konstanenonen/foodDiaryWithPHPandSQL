@@ -1,58 +1,4 @@
-<?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
-	{
-		if (isset($_POST['checkInteger'])) {
-      $servername = "localhost";
-      $username = "root";
-      $password = "";
-      $dbname = "session_db";
-      $userid = $_COOKIE['userid'];
-      
-      // Create connection
-      $conn = new mysqli($servername, $username, $password, $dbname);
-      // Check connection
-      if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-      }
-      
-      // sql to delete a record
-      $sql = "DELETE FROM dinner WHERE userid='$userid'";
-      
-      if ($conn->query($sql) === TRUE) {
-        echo "Record deleted successfully";
-      } else {
-        echo "Error deleting record: " . $conn->error;
-      }
-      
-      $conn->close();
-		}  else if (isset($_POST['checkUpdate'])) {
-      $value = $_POST['valueDate'];
-			$dish = $_POST['valueDish'];
-			$drink = $_POST['valueDrink'];
-      //Connect to data base
-      $servername = "localhost";
-      $username = "root";
-      $password = "";
-      $dbname = "session_db";
-      $userid = $_COOKIE['userid'];
 
-      // Create connection
-      $conn = new mysqli($servername, $username, $password, $dbname);
-      // Check connection
-      if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-      }
-
-      $sql = "UPDATE dinner SET dinnerDish='$dish', dinnerDrink='$drink' WHERE dinnerDate='$value' AND userid='$userid'";
-
-      if ($conn->query($sql) === TRUE) {
-        echo "Record updated successfully";
-      } else {
-        echo "Error updating record: " . $conn->error;
-      }
-    }
-	}  
-?>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -63,6 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
     <title>Hello, world!</title>
+  </head>
+
+
+
+
+    <body>
+
     <header>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -89,7 +42,62 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             </div>
           </nav>
 	  </header>
-    <body>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+	{
+		if (isset($_POST['checkInteger'])) {
+      $servername = "localhost";
+      $username = "root";
+      $password = "";
+      $dbname = "session_db";
+      $userid = $_COOKIE['userid'];
+      
+      // Create connection
+      $conn = new mysqli($servername, $username, $password, $dbname);
+      // Check connection
+      if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+      }
+      
+      // sql to delete a record
+      $sql = "DELETE FROM dinner WHERE userid='$userid'";
+      
+      if ($conn->query($sql) === TRUE) {
+        echo "Dinner History cleared.";
+      } else {
+        echo "Error deleting record: " . $conn->error;
+      }
+      
+      $conn->close();
+		}  else if (isset($_POST['checkUpdate'])) {
+      $value = $_POST['valueDate'];
+			$dish = $_POST['valueDish'];
+			$drink = $_POST['valueDrink'];
+      //Connect to data base
+      $servername = "localhost";
+      $username = "root";
+      $password = "";
+      $dbname = "session_db";
+      $userid = $_COOKIE['userid'];
+
+      // Create connection
+      $conn = new mysqli($servername, $username, $password, $dbname);
+      // Check connection
+      if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+      }
+
+      $sql = "UPDATE dinner SET dinnerDish='$dish', dinnerDrink='$drink' WHERE dinnerDate='$value' AND userid='$userid'";
+
+      if ($conn->query($sql) === TRUE) {
+        echo "Dinner History updated.";
+      } else {
+        echo "Error updating record: " . $conn->error;
+      }
+    }
+	}  
+?>
 
     <h1 style="padding: 75px; font-size: 50px;">Dinner Page</h1>
 
@@ -99,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
                   <button name="checkInteger" type="submit" class="btn btn-danger">Clear History</button>
                 </form>
-                <div class="card" style="width: 22rem; margin-bottom: 50px;">
+                <div class="card" style="width: 22rem; margin-bottom: 50px; background-color: rgb(250, 251, 252);">
                     <div class="card-body">
                       <h5 class="card-title" style="margin-bottom: 20px;">Dinner History</h5>
                       <div>
@@ -123,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                           if ($result->num_rows > 0) {
                               // output data of each row
                               while($row = $result->fetch_assoc()) {
-                                echo "<div class='card' style='width: 10rem; margin-bottom: 20px'><div class='card-body' style='background-color: rgb(230,251,255);'> <strong>Date</strong>: ". $row["dinnerDate"]. " <br> <strong>Dish</strong>: ". $row["dinnerDish"]. " <br> <strong>Drink</strong>: " . $row["dinnerDrink"] . "</div></div>";
+                                echo "<div class='card' style='width: 10rem; margin-bottom: 20px;'><div class='card-body' style='background-color: rgb(230,251,255);'> <strong>Date</strong>: ". $row["dinnerDate"]. " <br> <strong>Dish</strong>: ". $row["dinnerDish"]. " <br> <strong>Drink</strong>: " . $row["dinnerDrink"] . "</div></div>";
                               }
                           } else {
                               echo "0 results";
@@ -137,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 </div>
                 <div class="col-sm">
                   <h1>Made a Mistake?</h1>
-                  <div class="card" style="width: 18rem; margin-bottom: 50px;">
+                  <div class="card" style="width: 18rem; margin-bottom: 50px; background-color: rgb(250, 251, 252);">
                       <div class="card-body">
                         <h5 class="card-title">Edit Dinner History</h5>
                         <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
