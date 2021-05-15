@@ -40,29 +40,38 @@
 	  </header>
 
 <?php
+// Recuiring dbinfo to get the proper info for database connection
 require_once('dbinfo.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
-		if (isset($_POST['checkInteger'])) {
+    // This executes when delete button is pressed
+		if (isset($_POST['deleteBreakfast'])) {
       $userid = $_COOKIE['userid'];
-      // Create connection
+      // Create connection to the database
       $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
       // Check connection
       if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
       }
       
-      // sql to delete a record
-      $sql = "DELETE FROM breakfast WHERE userid='$userid'";
+      // Making a prepared sql statement for deleting all records from breakfast table
+      $deleteBreakfast = $conn->prepare("DELETE FROM breakfast WHERE userid=?");
+      $deleteBreakfast->bind_param('i', $userid);
       
-      if ($conn->query($sql) === TRUE) {
-        echo "<p style='text-align: center;'><strong>Breakfast History cleared</strong></p>";
+      // Exectuing the prepared sql statement
+      $deleteBreakfast->execute();
+      
+      //Error handling of the database problems
+      if ($deleteBreakfast->error) {
+        echo "<p style='text-align: center;'><strong>There was a problem deleting Breakfast History, please try again later</strong></p>";
       } else {
-        echo "Error deleting record: " . $conn->error;
+        echo "<p style='text-align: center;'><strong>Breakfast History cleared</strong></p>";
       }
       
       $conn->close();
+
+      //This executes when the edit button is pressed
 		} else if (isset($_POST['checkUpdate'])) {
       $value = $_POST['valueDate'];
       $time = $_POST['valueTime'];
@@ -78,20 +87,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         die("Connection failed: " . $conn->connect_error);
       }
 
+      // Sanitizing the user input from malicious symbols
       $sanitizeValue = filter_var($value, FILTER_SANITIZE_STRING);
       $sanitizeTime = filter_var($time, FILTER_SANITIZE_STRING);
       $sanitizeDish = filter_var($dish, FILTER_SANITIZE_STRING);
       $sanitizeDrink = filter_var($drink, FILTER_SANITIZE_STRING);
 
-      $sql = "UPDATE breakfast SET bTime='$sanitizeTime', bDish='$sanitizeDish', bDrink='$sanitizeDrink' WHERE bDate='$sanitizeValue' AND userid='$userid'";
+      // Making a prepared sql statement that that changes the brekfast item in a way the user wants it to be.
+      $updateBreakfast = $conn->prepare("UPDATE breakfast SET bTime=?, bDish=?, bDrink=? WHERE bDate=? AND userid=?");
+      $updateBreakfast->bind_param('ssssi', $sanitizeTime, $sanitizeDish, $sanitizeDrink, $sanitizeValue, $userid);
+      
+      // Executing the prepared sql statement
+      $updateBreakfast->execute();
 
-      if ($conn->query($sql) === TRUE) {
-        echo "<p style='text-align: center;'><strong>Breakfast History updated</strong></p>";
+      // Error handling of the database
+      if ($updateBreakfast->error) {
+        echo "<p style='text-align: center;'><strong>There was a problem editing the meal. Please try again later!</strong></p>";
       } else {
-        echo "Error updating record: " . $conn->error;
+        echo "<p style='text-align: center;'><strong>Breakfast History updated</strong></p>";
       }
 
         $conn->close();
+
+        // Error handling of the user input.
       } else {
 				echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
 			}
@@ -105,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             <div class="row">
               <div class="col-sm">
                 <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
-                  <button name="checkInteger" type="submit" class="btn btn-danger">Clear History</button>
+                  <button name="deleteBreakfast" type="submit" class="btn btn-danger">Clear History</button>
                 </form>
                 <div class="card" style="width: 22rem; margin-bottom: 50px; background-color: rgb(250, 251, 252);">
                     <div class="card-body">

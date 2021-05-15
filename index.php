@@ -41,23 +41,27 @@
 	  </header>
 
 <?php
+// Recuiring dbinfo to get the proper info for database connection
 require_once('dbinfo.php');
+// Starting session
 session_start();
 
-//Creating custom function for error message to save time
+// Creating custom function for error message to save time
 function tooBigOrSmall() {
   echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
 }
 
-//Creating custom function for confirmation message to save time
+// Creating custom function for confirmation message to save time
 function addingConfirmation() {
   echo "<p style='text-align: center;'><strong>New meal added to Dinner History</strong></p>";
 }
 
-  /* If the session data does not exist (i.e we are starting a new session), try to set the session's data with 
-     the cookies that were saved when the user made his/her last login (i.e: the cookies that the client browser is sending in its HTTP GET request to this index.php script)
-     This is the code that allows the app to remember the user that last logged in to the app (in the browser/computer that's issuing the HTTP GET request) and left the app without logging out 
-  */
+// Creating custom function for database error message to  save time
+function databaseError() {
+  echo "<p style='text-align: center;'><strong>There was a problem adding your meal to the Food Diary. Remember that you can't add a meal with same Date and time twice!</strong></p>";
+}
+
+  // If new session is started userid and username are fetched from cookies
   if (!isset($_SESSION['userid'])) {
     if (isset($_COOKIE['userid']) && isset($_COOKIE['username'])) {
       $_SESSION['userid'] = $_COOKIE['userid'];
@@ -67,7 +71,7 @@ function addingConfirmation() {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
-		if (isset($_POST['checkLengthBreakfast'])) {  // Checking text length
+		if (isset($_POST['checkLengthBreakfast'])) {  //Checking that the text length isn't too small or long
 			$value = $_POST['valueDate'];
       $time = $_POST['valueTime'];
 			$dish = $_POST['valueDish'];
@@ -75,33 +79,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $userid =  $_SESSION['userid'];
 			if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30 && strlen($time) > 2 && strlen($time) < 30) {
 				
-				// Create connection
+				// Create connection to the database
 				$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 				// Check connection
 				if ($conn->connect_error) {
 					die("Connection failed: " . $conn->connect_error);
-}
-
+        }
+        // Sanitizing user inputs. This makes sure that any sucpisious symbols don't get to database
         $sanitizeValue = filter_var($value, FILTER_SANITIZE_STRING);
         $sanitizeTime = filter_var($time, FILTER_SANITIZE_STRING);
         $sanitizeDish = filter_var($dish, FILTER_SANITIZE_STRING);
         $sanitizeDrink = filter_var($drink, FILTER_SANITIZE_STRING);
+        
+        // Making prepared sql statement that inserts the input data to the table a
+        $bstmt = $conn->prepare("INSERT INTO breakfast (bDate, bTime, bDish, bDrink, userid) VALUES (?, ?, ?, ?, ?)");
+        $bstmt->bind_param("ssssi", $sanitizeValue, $sanitizeTime, $sanitizeDish, $sanitizeDrink, $userid);
 
-				$sql = "INSERT INTO breakfast (bDate, bTime, bDish, bDrink, userid)
-				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
+        // Executing the prepared sql statement
+        $bstmt->execute();
 
-				if ($conn->query($sql) === TRUE) {
-          addingConfirmation();
+        // Error handling of the database here we use the custom functions made at the start
+				if ($bstmt->error) {
+          databaseError();
 				} else {
-				echo "Error: " . $sql . "<br>" . $conn->error;
+          addingConfirmation();
 				}
 
 				$conn->close();
+        // Error handling of the user input with the custom functin made in the start
 			} else {
 				tooBigOrSmall();
 			}
 		}
-		else if (isset($_POST['checkLengthDinner'])){ // Checking text length
+		else if (isset($_POST['checkLengthDinner'])){ //Checking that the text length isn't too small or long
 			$value = $_POST['valueDate3'];
       $time = $_POST['valueTime3'];
       $dish = $_POST['valueDish3'];
@@ -114,28 +124,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				// Check connection
 				if ($conn->connect_error) {
 					die("Connection failed: " . $conn->connect_error);
-}
+        }
 
+        // Sanitizing user inputs. This makes sure that any sucpisious symbols don't get to database
         $sanitizeValue = filter_var($value, FILTER_SANITIZE_STRING);
         $sanitizeTime = filter_var($time, FILTER_SANITIZE_STRING);
         $sanitizeDish = filter_var($dish, FILTER_SANITIZE_STRING);
         $sanitizeDrink = filter_var($drink, FILTER_SANITIZE_STRING);
+        
+        // Making prepared sql statement that inserts the input data to the table a
+        $dstmt = $conn->prepare("INSERT INTO dinner (dinnerDate, dinnerTime, dinnerDish, dinnerDrink, userid) VALUES (?, ?, ?, ?, ?)");
+        $dstmt->bind_param("ssssi", $sanitizeValue, $sanitizeTime, $sanitizeDish, $sanitizeDrink, $userid);
 
-				$sql = "INSERT INTO dinner (dinnerDate, dinnerTime, dinnerDish, dinnerDrink, userid)
-				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
+        // Executing the prepared sql statement
+        $dstmt->execute();
 
-				if ($conn->query($sql) === TRUE) {
-          addingConfirmation();
+        // Error handling of the database here we use the custom functions made at the start
+				if ($dstmt->error) {
+          databaseError();
 				} else {
-				echo "Error: " . $sql . "<br>" . $conn->error;
+          addingConfirmation();
 				}
 
 				$conn->close();
+        // Error handling of the user input with the custom functin made in the start
 			} else {
 				tooBigOrSmall();
 			}
 		}
-		else if (isset($_POST['checkLengthLunch'])){ // Checking text length
+		else if (isset($_POST['checkLengthLunch'])){ // Checking that the text length isn't too small or long
 			$value = $_POST['valueDate2'];
       $time = $_POST['valueTime2'];
       $dish = $_POST['valueDish2'];
@@ -143,33 +160,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       $userid =  $_SESSION['userid'];
 			if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30) {
 				
-				// Create connection
+				// Create connection to the database
 				$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 				// Check connection
 				if ($conn->connect_error) {
 					die("Connection failed: " . $conn->connect_error);
+        }
+
+       // Sanitizing user inputs. This makes sure that any sucpisious symbols don't get to database
+       $sanitizeValue = filter_var($value, FILTER_SANITIZE_STRING);
+       $sanitizeTime = filter_var($time, FILTER_SANITIZE_STRING);
+       $sanitizeDish = filter_var($dish, FILTER_SANITIZE_STRING);
+       $sanitizeDrink = filter_var($drink, FILTER_SANITIZE_STRING);
+       
+       // Making prepared sql statement that inserts the input data to the table a
+       $lstmt = $conn->prepare("INSERT INTO lunch (lunchDate, lunchTime, lunchDish, lunchDrink, userid) VALUES (?, ?, ?, ?, ?)");
+       $lstmt->bind_param("ssssi", $sanitizeValue, $sanitizeTime, $sanitizeDish, $sanitizeDrink, $userid);
+
+       // Executing the prepared sql statement
+       $lstmt->execute();
+
+       // Error handling of the database here we use the custom functions made at the start
+       if ($lstmt->error) {
+         databaseError();
+       } else {
+         addingConfirmation();
+       }
+
+       $conn->close();
+       // Error handling of the user input with the custom functin made in the start
+     } else {
+       tooBigOrSmall();
+     }
+   }
 }
-
-        $sanitizeValue = filter_var($value, FILTER_SANITIZE_STRING);
-        $sanitizeTime = filter_var($time, FILTER_SANITIZE_STRING);
-        $sanitizeDish = filter_var($dish, FILTER_SANITIZE_STRING);
-        $sanitizeDrink = filter_var($drink, FILTER_SANITIZE_STRING);
-
-				$sql = "INSERT INTO lunch (lunchDate, lunchTime, lunchDish, lunchDrink, userid)
-				VALUES ('$sanitizeValue', '$sanitizeTime', '$sanitizeDish', '$sanitizeDrink', '$userid')";
-
-				if ($conn->query($sql) === TRUE) {
-          addingConfirmation();
-				} else {
-				echo "Error: " . $sql . "<br>" . $conn->error;
-				}
-
-				$conn->close();
-			} else {
-        tooBigOrSmall();
-			}
-    }
-  }
 ?>
 
     <div class="container">
@@ -179,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </div>
         <div class="col-sm">
         <?php
-          // Generate the navigation menu
+          // Generating the navigation menu
           if (isset($_SESSION['userid'])) {
             echo '<div class="card" style="width: 22rem; background-color: rgb(250, 251, 252);">';
             echo '<div class="card-body">';
