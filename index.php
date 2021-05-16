@@ -51,11 +51,6 @@ function tooBigOrSmall() {
   echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
 }
 
-// Creating custom function for confirmation message to save time
-function addingConfirmation() {
-  echo "<p style='text-align: center;'><strong>New meal added to Dinner History</strong></p>";
-}
-
 // Creating custom function for database error message to  save time
 function databaseError() {
   echo "<p style='text-align: center;'><strong>There was a problem adding your meal to the Food Diary. Remember that you can't add a meal with same Date and time twice!</strong></p>";
@@ -102,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				if ($bstmt->error) {
           databaseError();
 				} else {
-          addingConfirmation();
+          echo "<p style='text-align: center;'><strong>New meal added to Breakfast History</strong></p>";
 				}
 
 				$conn->close();
@@ -143,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				if ($dstmt->error) {
           databaseError();
 				} else {
-          addingConfirmation();
+          echo "<p style='text-align: center;'><strong>New meal added to Dinner History</strong></p>";
 				}
 
 				$conn->close();
@@ -184,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
        if ($lstmt->error) {
          databaseError();
        } else {
-         addingConfirmation();
+        echo "<p style='text-align: center;'><strong>New meal added to Lunch History</strong></p>";
        }
 
        $conn->close();
@@ -202,27 +197,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
           <h1 style="font-size: 50px;">Input Page</h1>
         </div>
         <div class="col-sm">
-        <?php
-          // Generating the navigation menu. This section will be shown when the user is logged in
-          if (isset($_SESSION['userid'])) {
-            echo '<div class="card" style="width: 22rem; background-color: rgb(250, 251, 252);">';
-            echo '<div class="card-body">';
-            echo '<h5 class="card-title">Hello, '. $_SESSION['username'] . '!</h5>'; 
-            echo '<p class="card-text"> Below you can add new meals to your Food Diary. From above you can view your Diary pages.<br>';
-            echo '<br><a href="logout.php" class="btn btn-primary" style="color: white;">Log Out</a></p>';
-            echo '</div>';
-            echo '</div>';
-          }
-          // This section will be shown when the user isn't logged in
-          else {
-            echo '<div class="card" style="width: 15rem; text-align: center; background-color: rgb(250, 251, 252);">';
-            echo '<div class="card-body">';
-            echo '<h5 class="card-title">Hello visitor!</h5>';
-            echo '<p class="card-text"><button type="button" class="btn btn-primary"><a href="login.php" style="color: white;">Log In</a></button> or <button type="button" class="btn btn-primary"><a href="signup.php" style="color: white;">Sign Up</a></button></p>';
-            echo '</div>';
-            echo '</div>';
-          }
-        ?>
+        <!--Including indexLoginBlock.php to show sing up / log in block when user is logged out. and showing log out block when user is logged in-->
+          <?php include 'indexLoginBlock.php';?>
         </div>
       </div>
     </div>

@@ -62,6 +62,7 @@ require_once('dbinfo.php');
     $password1 = mysqli_real_escape_string($dbc, trim($_POST['password1']));
     $password2 = mysqli_real_escape_string($dbc, trim($_POST['password2']));
 
+    //Validating user input password and username can't be empty and password1 and password2 must be the same to pass
     if (!empty($username) && !empty($password1) && !empty($password2) && ($password1 == $password2)) {  
 
       // Checking that the provided username does not yet exist in the database

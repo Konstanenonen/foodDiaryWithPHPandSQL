@@ -131,33 +131,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                     <div class="card-body">
                       <h5 class="card-title" style="margin-bottom: 20px;">Breakfast History</h5>
                       <div>
-                        <?php
-                        require_once('dbinfo.php');
-                        $userid = $_COOKIE['userid'];
-                          // Create connection to the database
-                          $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-                          // Check connection
-                          if ($conn->connect_error) {
-                            die("Connection failed: " . $conn->connect_error);
-                          }
-                          
-                          // Making prepared sql statement that we use to read data from the table and output it to our Breakfast History
-                          $sql = "SELECT bDate, bTime, bDish, bDrink FROM breakfast WHERE userid='$userid'";
-                          $result = $conn->query($sql);
-
-                          // This happens when the table isn't empty
-                          if ($result->num_rows > 0) {
-                              // output data of each row
-                              while($row = $result->fetch_assoc()) {
-                                echo "<div class='card' style='width: 10rem; margin-bottom: 20px'><div class='card-body' style='background-color: rgb(230,251,255);'><h5 class='card-title'>" . $row["bDate"]. "</h5> <p class='card-text'><strong>Time</strong>: ". $row["bTime"]. " <br> <strong>Dish</strong>: ". $row["bDish"]. " <br> <strong>Drink</strong>: " . $row["bDrink"] . "</p></div></div>";
-                              }
-                            // This will be shown if the table is empty
-                          } else {
-                              echo "0 results";
-                          }
-
-                          $conn->close();
-                        ?>
+                        <!--Including breakfastHistory.php file to show the data fron breakfast table in this page-->
+                        <?php include 'breakfastHistory.php';?>
                       </div>
                     </div>
                   </div>
