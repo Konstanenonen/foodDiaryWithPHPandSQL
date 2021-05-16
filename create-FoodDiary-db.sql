@@ -1,6 +1,6 @@
 CREATE DATABASE fooddiary_db;
 
--- Table structure for table user
+-- First we create all the tables
 CREATE TABLE users (
   userid int NOT NULL AUTO_INCREMENT,
   username varchar(16) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE dinner (
   userid int NOT NULL,
   CONSTRAINT PK_dinner PRIMARY KEY (dinnerDate,dinnerTime,userid)
 );
-
+-- Here we insert example data to the tables
 INSERT INTO users VALUES (1, 'Ben', '02360');
 INSERT INTO users VALUES (2, 'Alex', '01600');
 INSERT INTO users VALUES (3, 'Li', '03573');

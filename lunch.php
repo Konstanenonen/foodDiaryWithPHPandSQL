@@ -40,29 +40,39 @@
 	  </header>
 
 <?php
+// Recuiring dbinfo to get the proper info for database connection
 require_once('dbinfo.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
-		if (isset($_POST['checkInteger'])) {
+    // This executes when delete button is pressed
+		if (isset($_POST['deleteLunch'])) {
+      // Getting the userid from cookies
       $userid = $_COOKIE['userid'];
       
-      // Create connection
+      // Create connection to the database
       $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
       // Check connection
       if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
       }
       
-      // sql to delete a record
-      $sql = "DELETE FROM lunch WHERE userid='$userid'";
+      // Making a prepared sql statement for deleting all records from lunch table
+      $deleteLunch = $conn->prepare("DELETE FROM lunch WHERE userid=?");
+      $deleteLunch->bind_param('i', $userid);
       
-      if ($conn->query($sql) === TRUE) {
-        echo "<p style='text-align: center;'><strong>Lunch History cleared</strong></p>";
+      // Exectuing the prepared sql statement
+      $deleteLunch->execute();
+      
+      //Error handling of the database problems
+      if ($deleteLunch->error) {
+        echo "<p style='text-align: center;'><strong>There was a problem deleting Lunch History, please try again later</strong></p>";
       } else {
-        echo "Error deleting record: " . $conn->error;
+        echo "<p style='text-align: center;'><strong>Lunch History cleared</strong></p>";
       }
       
       $conn->close();
+
+      //This executes when the edit button is pressed
 		}  else if (isset($_POST['checkUpdate'])) {
       $value = $_POST['valueDate'];
       $time = $_POST['valueTime'];
@@ -70,29 +80,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$drink = $_POST['valueDrink'];
       $userid = $_COOKIE['userid'];
       if (strlen($value) > 2 && strlen($value) < 30 && strlen($dish) > 2 && strlen($dish) < 30 && strlen($drink) > 2 && strlen($drink) < 30) { //Checking that input value isn't too loo long or small
-      //Connect to data base
 
-      // Create connection
+      // Create connection to the database
       $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
       // Check connection
       if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
       }
 
-      $sanitizeValue = filter_var($value, FILTER_SANITIZE_STRING);
-      $sanitizeTime = filter_var($time, FILTER_SANITIZE_STRING);
-      $sanitizeDish = filter_var($dish, FILTER_SANITIZE_STRING);
-      $sanitizeDrink = filter_var($drink, FILTER_SANITIZE_STRING);
+     // Sanitizing the user input from malicious symbols
+     $sanitizeValue = filter_var($value, FILTER_SANITIZE_STRING);
+     $sanitizeTime = filter_var($time, FILTER_SANITIZE_STRING);
+     $sanitizeDish = filter_var($dish, FILTER_SANITIZE_STRING);
+     $sanitizeDrink = filter_var($drink, FILTER_SANITIZE_STRING);
 
-      $sql = "UPDATE lunch SET lunchTime='$sanitizeTime', lunchDish='$sanitizeDish', lunchDrink='$sanitizeDrink' WHERE lunchDate='$sanitizeValue' AND userid='$userid'";
+     // Making a prepared sql statement that that changes the lunch item in a way the user wants it to be.
+     $updateBreakfast = $conn->prepare("UPDATE lunch SET lunchTime=?, lunchDish=?, lunchDrink=? WHERE lunchDate=? AND userid=?");
+     $updateBreakfast->bind_param('ssssi', $sanitizeTime, $sanitizeDish, $sanitizeDrink, $sanitizeValue, $userid);
+     
+     // Executing the prepared sql statement
+     $updateBreakfast->execute();
 
-      if ($conn->query($sql) === TRUE) {
-        echo "<p style='text-align: center;'><strong>Lunch History updated</strong></p>";
-      } else {
-        echo "Error updating record: " . $conn->error;
-      }
+     // Error handling of the database
+     if ($updateBreakfast->error) {
+       echo "<p style='text-align: center;'><strong>There was a problem editing the meal. Please try again later!</strong></p>";
+     } else {
+       echo "<p style='text-align: center;'><strong>Lunch History updated</strong></p>";
+     }
 
-        $conn->close();
+       $conn->close();
+
+       // Error handling of the user input.
       } else {
 				echo "<p style='text-align: center;'><strong>The input value can't be too small or long</strong></p>";
 			}
@@ -106,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             <div class="row">
               <div class="col-sm">
                 <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
-                  <button name="checkInteger" type="submit" class="btn btn-danger">Clear History</button>
+                  <button name="deleteLunch" type="submit" class="btn btn-danger">Clear History</button>
                 </form>
                 <div class="card" style="width: 22rem; margin-bottom: 50px; background-color: rgb(250, 251, 252);">
                     <div class="card-body">
@@ -117,22 +135,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
                           $userid = $_COOKIE['userid'];
 
-                          // Create connection
+                          // Create connection to the database
                           $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
                           // Check connection
                           if ($conn->connect_error) {
                             die("Connection failed: " . $conn->connect_error);
                           }
                           
+                          // Making prepared sql statement that we use to read data from the table and output it to our Breakfast History
                           $sql = "SELECT lunchDate, lunchTime, lunchDish, lunchDrink FROM lunch WHERE userid = '$userid'";
                           $result = $conn->query($sql);
                           
-
+                          // This happens when the table isn't empty
                           if ($result->num_rows > 0) {
                               // output data of each row
                               while($row = $result->fetch_assoc()) {
                                 echo "<div class='card' style='width: 10rem; margin-bottom: 20px'><div class='card-body' style='background-color: rgb(230,251,255);'><h5 class='card-title'>" . $row["lunchDate"]. "</h5> <p class='card-text'><strong>Time</strong>: ". $row["lunchTime"]. " <br> <strong>Dish</strong>: ". $row["lunchDish"]. " <br> <strong>Drink</strong>: " . $row["lunchDrink"] . "</p></div></div>";
                               }
+                            // This will be shown if the table is empty
                           } else {
                               echo "0 results";
                           }

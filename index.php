@@ -203,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         </div>
         <div class="col-sm">
         <?php
-          // Generating the navigation menu
+          // Generating the navigation menu. This section will be shown when the user is logged in
           if (isset($_SESSION['userid'])) {
             echo '<div class="card" style="width: 22rem; background-color: rgb(250, 251, 252);">';
             echo '<div class="card-body">';
@@ -213,6 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             echo '</div>';
             echo '</div>';
           }
+          // This section will be shown when the user isn't logged in
           else {
             echo '<div class="card" style="width: 15rem; text-align: center; background-color: rgb(250, 251, 252);">';
             echo '<div class="card-body">';
