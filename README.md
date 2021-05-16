@@ -5,7 +5,11 @@ This is a Step-by-step user manual that teaches how to use Food Diary app. In Fo
 From the input page you can add new meals you have enjoyd on your breakfast, lunch or Dinner. Then the Food Diary has pages for breakfast, lunch and dinner
 where you can see your inputted meals, edit them or delete them all. Food Diary also has authentication so unlitimed amount of users can have their own Diary in single device.
 Authentication also remembers users so if you don't log out, you will still be logged in even if the device is shut down in between.
-Food Diary is coded with HTML/CSS in the frontend. The backed uses php and sql commands.
+Food Diary is coded with HTML/CSS in the frontend. The backed uses php and sql commands. There is also a file in the github that creates the fooddiary_db database if you would like to test this app locally.
+
+<br>
+
+Here is an online link to Food Diary App: http://konstanenonenlaurea.azurewebsites.net/index.php
 
 <br>
 <br>
@@ -44,7 +48,7 @@ After you submit the new meal you see the confirmation message on top of the pag
 <br>
 <br>
 
-# EXAMPLE BREAKFAST PAGE 🏡
+# EXAMPLE BREAKFAST PAGE 🥓🍳🥛
 
 ![Example of Breakfast Page with new meal](BreakfastPage.png)
 
