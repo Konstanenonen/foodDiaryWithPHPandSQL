@@ -65,3 +65,10 @@ Here you can see the edited meal in Breakfast History.
 ![Here you can see the deleted Breakfast History](DeleteHistory.png)
 
 Clicking the "Clear History" button will delete all meals from Meal History.
+
+<br>
+<br>
+
+#DATABASE IMAGE
+
+![DATABASE IMAGE](Database.png)
