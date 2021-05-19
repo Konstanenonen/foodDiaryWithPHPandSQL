@@ -69,6 +69,6 @@ Clicking the "Clear History" button will delete all meals from Meal History.
 <br>
 <br>
 
-#DATABASE IMAGE
+# DATABASE IMAGE
 
 ![DATABASE IMAGE](Database.png)
